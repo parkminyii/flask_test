@@ -35,21 +35,21 @@ def news(news_id):
 
 # url을 무한대로 생산할 수 있다
 # 1개 이상도 전달 가능한가?, 위치 조정
-# https://127.0.0.1:5000/전달값1/news2/전달값2
+# http://127.0.0.1:5000/전달값1/news2/전달값2
 @app.route('/<news_id>/news2/<news_author>')
 def news2(news_id, news_author):
     return "전달된 데이터[ %s ] [ %s ] " % (news_id, news_author)
 
 # 타입 제한이 가능한가? int, float, path 
-# https://127.0.0.1:5000/news3/123456745 --> 200 OK
-# https://127.0.0.1:5000/news3/hello     --> 404 OK
+# http://127.0.0.1:5000/news3/123456745 --> 200 OK
+# http://127.0.0.1:5000/news3/hello     --> 404 OK
 @app.route('/news3/<int:news_id>')
 def news3(news_id):
     return "전달된 데이터[ %s ]" % news_id    
 
 # path 
 # 전달값을 무한대로 늘려주는 옵션
-# https://127.0.0.1:5000/news4/1/2/3/4/5/6/7/8/9/home/동국/10
+# http://127.0.0.1:5000/news4/1/2/3/4/5/6/7/8/9/home/동국/10
 @app.route('/news4/<path:news_id>')
 def news4(news_id):
     # 정보를 구분해서 여러 개로 전달 가능(가변적)

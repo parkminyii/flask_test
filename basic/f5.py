@@ -2,7 +2,7 @@
     - GET 방식으로 데이터 전송하기
         - 클라이언트 (Json, Xml, Text, Form,(키=값&키=값...), Form_encode, Graphal, Binary)
             - form 전송, 화면 껌벅 => 화면 전환, Form, Form_encode
-                <form action=""https://127.0.0.1:5000/link" method="get">
+                <form action=""http://127.0.0.1:5000/link" method="get">
                     <input name="name" value="hello"/> 
                     <input name="age" value="100"/> 
                     <input type="submit" value="전송"/>
@@ -10,7 +10,7 @@
             - ajax 가능 (jQuery로 표현), 화면은 현재 화면 유지 
                 - (Json, Xml, Text, Form,(키=값&키=값...), Form_encode, Graphal, Binary)
                 $.post({
-                    url:"https://127.0.0.1:5000/link",
+                    url:"http://127.0.0.1:5000/link",
                     data:"name=hello&age=100",
                     success:(res)=>{},
                     error:(err)=>{}
@@ -34,7 +34,7 @@ app = Flask(__name__)
 def login():
     # method별 분기
     if request.method == 'GET':
-        return "helloworld"
+        return render_template('login.html')
     else: # POST
         # request.form['uid'] # 값이 누락되면 서버 셧다운됨, 사용 금지 
         # 1. 로그인 정보 획득 
