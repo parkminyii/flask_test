@@ -23,8 +23,8 @@
     - wsgi.py 파일 생성
         - flask run
         ```
-             Use a production WSGI server instead.
             * Debug mode: off
+             Use a production WSGI server instead.
             * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
             127.0.0.1 - - [27/Mar/2023 10:24:25] "GET / HTTP/1.1" 200 -
         ``` 
