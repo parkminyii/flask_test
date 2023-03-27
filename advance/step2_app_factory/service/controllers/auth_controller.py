@@ -10,10 +10,10 @@ from service.controllers import bp_auth as auth
 @auth.route('/')
 def home():
     # url_for(별칭.함수명) => url이 리턴된다
-    print  (url_for('auth_bp.login') )
+    print (url_for('auth_bp.login') )
     return "auth 홈"
 
-@auth.route('/')
+@auth.route('/login')
 def login():
     return "auth login"
 
