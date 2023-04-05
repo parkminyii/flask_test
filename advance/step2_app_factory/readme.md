@@ -91,3 +91,55 @@
         - 해결은 했으나 우아하지 않다, 깔끔하지는 않다 
     - XXX: 내용
         - 이 부분은 큰 문제점, 오류를 가지고 있다 
+
+# 데이터베이스 연동
+    - pool(풀링기법)
+        - 백엔드 서버가 가동하면 백엔드와 데이터베이스 간 일정량의 커넥션을 미리 맺어서 
+        - 큐(Queue:먼저 들어간 데이터가 먼저 나온다) 구조 담아서 관리 
+        - 접속과 해제라는 반복 작업에 따른 응답 시간 지연 원일을 제거, 일정량의 동접이 발생했을 때, 안정적인 처리 속도 제공
+        - sqlalchemy
+    - ORM 방식
+        - 객체 지향 방식으로 코드에서 데이터베이스 연동, 데이터 처리 등을 관리
+        - 원칙적으로는 SQL을 몰라도 처리 가능
+            - 데이터베이스 벤더가 교체되더라도 동일하게 작동
+        - 단점
+            - 쿼리가 최적화되었다고 볼 수 없다 -> 기계적인 생성
+        - sqlalchemy, flask-migrate
+    - 설치
+        - pip install sqlalchemy flask-migrate
+    - 코드 작성
+        -
+        ```
+            from flask_sqlalchemy import SQLAlchemy
+            from flask_migrate import Migrate
+
+            db = SQLAlchemy()
+            migrate = Migrate()
+
+            # ORM을 위한 flask 객체와 sqlalchemy, migrate 객체 연결 
+            db.init_app(app)
+            migrate.init_app( app, db )
+
+            # ORM 처리를 위한 환경 변수 설정,(임의설정)
+            DB_PROTOCAL = "mysql+pymysql"
+            DB_USER     = "root"
+            DB_PASSWORD = "12341234"
+            DB_HOST     = "127.0.0.1"
+            DB_PORT     = 3306
+            DB_DATABASE = "my_db" # 새로 만들, 이 서비스에서 사용할 데이터베이스명
+
+            # 이 환경 변수는 migrate가 필수로 요구하는 환경 변수 
+            SQLALCHEMY_DATABASE_URL=f"{DB_PROTOCAL}://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_DATABASE}"
+            # sqlalchemy 노티 비활성
+            SQLALCHEMY_TRACK_MODIFICATIONS=False
+        ```
+        - 데이터 베이스 생성, 초기화 (최초 1회)
+            - --app service는 없어도 되는데 이 앱은 app or wsgi로 시작하는 엔트리가 없어서 별도로 지정해야 한다 
+            - flask --app service db init
+            - migrations 폴더가 생긴다(내부는 자동으로 만들어지는 구조이므로 관여하지 않는다) 단, versions밑으로 수정할 때마다 새로운 버전의 DB관련 내용이 생성된다 
+        - 모델(테이블) 생성, 변경
+            - flask --app service db migrate 
+        - 모델(테이블) 생성, 변경 후 데이터베이스에 적용
+            - flask --app service db upgrade
+        - 컨테이너 이미지 생성 시
+            - 위의 명령들 3개를 차례대로 수행해서 데이터베이스 초기화, 생성 과정을 수행 
