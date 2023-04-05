@@ -13,7 +13,7 @@ from service import db
 class Question(db.Model):
     id          = db.Column(db.Integer,   primary_key=True)
     title       = db.Column(db.String(256), nullable=False)
-    Content     = db.Column(db.Text(),      nullable=False)
+    content     = db.Column(db.Text(),      nullable=False)
     reg_date    = db.Column(db.DateTime(),  nullable=False)
     pass
 

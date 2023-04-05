@@ -25,14 +25,14 @@ def create_app():
 
 def init_database(app):
     # pool
-    from .model import pool_sql
-    pool_sql.init_pool()
+    # from .model import pool_sql
+    # pool_sql.init_pool()
     # 테스트
-    print( pool_sql.login('guest','1234') )
+    # print( pool_sql.login('guest','1234') )
     # ORM을 위한 flask 객체와 sqlalchemy, migrate 객체 연결 
     db.init_app(app)
     migrate.init_app( app, db )
-    #from .model import models
+    from .model import models
 
 def init_environment( app ):
     # 특정 파일(cfg,...)등을 읽어서 처리 가능
